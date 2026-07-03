@@ -36,6 +36,19 @@ jobs:
       - name: Clear Gradle wrapper cache
         run: rm -rf "$GRADLE_USER_HOME/wrapper/dists"
 
+      - name: Create debug keystore
+        run: |
+          keytool -genkeypair -v \
+            -keystore debug.keystore \
+            -storepass android \
+            -alias androiddebugkey \
+            -keypass android \
+            -dname "CN=Android Debug,O=Android,C=US" \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storetype JKS
+
       - name: Build Debug APK
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
